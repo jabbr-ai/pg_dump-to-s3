@@ -25,7 +25,7 @@ DELETETION_TIMESTAMP=`[ "$(uname)" = Linux ] && date +%s --date="-$DELETE_AFTER"
 # Split databases
 IFS=',' read -ra DBS <<< "$PG_DATABASES"
 
-# Delete old files
+# Start backing up files
 echo " * Backup in progress.,.";
 
 # Loop thru databases
@@ -48,7 +48,7 @@ for db in "${DBS[@]}"; do
     echo "      ...database $db has been backed up"
 done
 
-# Delere old files
+# Delete old files
 echo " * Deleting old backups...";
 
 # Loop thru files

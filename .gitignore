@@ -1,3 +1,8 @@
+.env
+.pgpass
+
+pg_dump_file_to_restore.dump
+
 # Config file
 pg_dump-to-s3.conf
 

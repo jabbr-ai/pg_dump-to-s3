@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  backup:
+    image: jabbrai/pg-backup:0.0.1
+    build: .
+    command: /root/pg_dump-to-s3.sh
+    volumes:
+      - ./.pgpass:/root/.pgpass
+      - ./pg_dump-to-s3.conf:/root/pg_dump-to-s3.conf
+      - ./pg_dump-to-s3.sh:/root/pg_dump-to-s3.sh
+    environment:
+      - PG_DB=${PG_DB}
+      - PG_USER=${PG_USER}
+      - PG_PORT=${PG_PORT}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    network_mode: host
+
+  restore:
+    image: jabbrai/pg-backup:0.0.1
+    build: .
+    command: /root/pg_restore.sh 
+    volumes:
+      - ./.pgpass:/root/.pgpass
+      - ./pg_dump_file_to_restore.dump:/root/pg_dump_file.dump
+      - ./pg_restore.sh:/root/pg_restore.sh
+    environment:
+      - PG_DB=${PG_DB}
+      - PG_USER=${PG_USER}
+      - PG_PORT=${PG_PORT}
+    network_mode: host
