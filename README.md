@@ -56,7 +56,15 @@ docker compose run --rm \
 
 ## Restore a backup with docker
 
-Copy the dump file to `pg_dump_file_to_restore.dump` and use docker compose
+Copy the dump file to `pg_dump_file_to_restore.dump` and use docker compose.
+
+Download presigned AWS S3 URL directly to machine
+
+```
+curl -o ~/pg_dump-to-s3/pg_dump_file_to_restore.dump '<PRESIGNED_URL_FROM_AWS_S3_DASHBOARD>'
+```
+
+and restore from dump
 
 ```
 docker compose run --rm \
