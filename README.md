@@ -32,8 +32,8 @@ We need to connect to the container running the database.
 Use the correct docker image version for image that has the needed psql tools.
 
 ```
-docker compose run --rm \
-  -e PG_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' supabase-db) \
+sudo docker compose run --rm \
+  -e PG_HOST=$(sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' supabase-db) \
   backup
 ```
 
@@ -56,11 +56,19 @@ docker compose run --rm \
 
 ## Restore a backup with docker
 
-Copy the dump file to `pg_dump_file_to_restore.dump` and use docker compose
+Copy the dump file to `pg_dump_file_to_restore.dump` and use docker compose.
+
+Download presigned AWS S3 URL directly to machine
 
 ```
-docker compose run --rm \
-  -e PG_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' supabase-db) \
+curl -o ~/pg_dump-to-s3/pg_dump_file_to_restore.dump '<PRESIGNED_URL_FROM_AWS_S3_DASHBOARD>'
+```
+
+and restore from dump
+
+```
+sudo docker compose run --rm \
+  -e PG_HOST=$(sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' supabase-db) \
   restore
 ```
 
