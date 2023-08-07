@@ -10,10 +10,16 @@
 # Project at https://github.com/gabfl/pg_dump-to-s3
 #
 
-set -e
+set -eu
+
+# Make sure PATH updated
+PATH=$PATH:$HOME/.local/bin
 
 # Set current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Import environment file
+source $DIR/.env
 
 # Import config file
 source $DIR/pg_dump-to-s3.conf
@@ -36,7 +42,7 @@ for db in "${DBS[@]}"; do
     echo "   -> backing up $db..."
 
     # Dump database
-    pg_dump -Fc -h $PG_HOST -U $PG_USER -p $PG_PORT $db > /tmp/"$FILENAME".dump
+    pg_dump -Fc -h "$PG_HOST" -U $PG_USER -p $PG_PORT $db > /tmp/"$FILENAME".dump
 
     # Copy to S3
     aws s3 cp /tmp/"$FILENAME".dump s3://$S3_PATH/"$FILENAME".dump --storage-class STANDARD_IA

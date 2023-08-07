@@ -9,11 +9,9 @@ Automatically dump and archive PostgreSQL backups to Amazon S3.
 
 ## Setup
 
-- Rename `pg_dump-to-s3.conf.sample` to `pg_dump-to-s3.conf` and set your PostgreSQL's credentials and the list of databases to back up
-   - Notice we're passing `PG_HOST` to the container, so just comment that line if you're using docker
-   - Update PG credentials in `.env`
+- Copy `pg_dump-to-s3.conf.sample` to `pg_dump-to-s3.conf` and set the list of databases to back up
 - Copy `.env.sample` to `.env` and update credentials
-- If your PostgreSQL connection uses a password, you will need to store it in `~/.pgpass` ([read documentation](https://www.postgresql.org/docs/current/static/libpq-pgpass.html))
+- If your PostgreSQL connection uses a password and local connections are not directly allowed, you will need to store it in `~/.pgpass` ([read documentation](https://www.postgresql.org/docs/current/static/libpq-pgpass.html))
 
 ### Create .pgpass
 
